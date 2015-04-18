@@ -56,7 +56,7 @@ JavaScript, который делает блок текста розовым, и
 так:
 
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="ru">
         <head>
             <meta charset="utf-8">
         </head>
@@ -66,7 +66,7 @@ JavaScript, который делает блок текста розовым, и
                 по призванию своему — библиотекарь. В народе — колхозник.
                 В магазине — продавец. В экономике, так сказать, необходим.
             </p>
-            <button id="fat" type="button">Сделать полужирным</button>
+            <button id="fat" type="button">Ожирнить</button>
     
             <script src="js/Fattyfier.js"></script>
             <script src="js/Pinkyfier.js"></script>
