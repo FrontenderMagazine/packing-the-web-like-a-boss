@@ -20,7 +20,7 @@ JavaScript, который делает блок текста розовым, и
 Если бы мы пилили JavaScript как в старые-добрые беззаботные времена, то вы бы
 создали такие файлы:
 
-    function Pinkyfier(id) {
+    function Pinkyfier(id) { // Орозовитель
         this.element = document.getElementById(id);
     }
     
@@ -31,7 +31,7 @@ JavaScript, который делает блок текста розовым, и
 
 [js/Pinkyfier.js][7]
 
-    function Fattyfier(id) {
+    function Fattyfier(id) { // Ожирнитель
         this.element = document.getElementById(id);
     }
 
@@ -62,9 +62,9 @@ JavaScript, который делает блок текста розовым, и
         </head>
         <body>
             <p id="text">
-                Nonne vides quid sit? Tu es ... Jesse me respice. Tu ... blowfish sunt. A blowfish! Cogitare. Statura
-                pusillus, nec sapientium panem, nec artificum. Sed predators facile prædam blowfish secretum telum non se
-                habet. Non ille? Quid faciam blowfish, Isai. Blowfish quid faciat? In blowfish inflat, purus?
+                Родился на улице Герцена, в гастрономе № 22. Известный экономист,
+                по призванию своему — библиотекарь. В народе — колхозник.
+                В магазине — продавец. В экономике, так сказать, необходим.
             </p>
             <button id="fat" type="button">Сделать полужирным</button>
     
@@ -94,17 +94,16 @@ JavaScript, который делает блок текста розовым, и
 
 ## Способ получше: модули AMD
 
-Before we look at the magic of webpack and how it makes everything better, let'
-s do a quick review of the most commonly used module systems out there: AMD, 
-CommonJS and, in the near future, ES6.
+Прежде чем рассматривать магию webpack и на то, как он всё делает лучше, давайте
+взглянем на самые известные системы модулей: AMD, CommonJS и, в ближайшем
+будущем, ES6.
 
-The most widely used implementation of AMD modules is [RequireJS][4]. Let's
-have a look how we can do our pink fat text page using RequireJS.
+Самая распространённая релизация модулей AMD — это [RequireJS][4].
+Посмотрим, как мы можем сделать текст на страничке розовым и полужирным при
+помощи RequireJS.
 
-Instead of throwing our *Pinkyfier* and *Fattyfier* classes out there in the
-global scope, we wrap them in nice*define* statements:</section><section class
-="text
-">
+Вместо того, чтобы вываливать классы `Pinkyfier` и `Fattyfier` прямо в
+глобальную область, мы обернём их в клёвую конструкцию `define`:
 
     define(function () {
         function Pinkyfier(id) {
@@ -118,7 +117,6 @@ global scope, we wrap them in nice*define* statements:</section><section class
     
         return Pinkyfier;
     });
-    
 
 [js/Pinkyfier.js][12]
 
@@ -133,13 +131,11 @@ global scope, we wrap them in nice*define* statements:</section><section class
     
         return Fattyfier;
     });
-    
 
 [js/Fattyfier.js][13]
 
-In your *main.js*, you can now require those two modules you defined like so:</
-section
-><section class="text">
+Вы теперь можете в своём `main.js` запросить те два модуля, которые мы только
+что определили:
 
     require([ "Fattyfier", "Pinkyfier" ], function (Fattyfier, Pinkyfier) {
     
@@ -152,39 +148,36 @@ section
             fattyfier.fat();
         }
     });
-    
 
 [js/main.js][14]
 
-In your HTML code, instead of the three script tags in the above example, you
-write just one script tag that loads RequireJS, with a data attribute that 
-points it to your application entry point*main.js*:</section><section class="
-text
-">
+А в коде HTML вместо трёх тегов script, как в примере ранее, вы просто пишете
+один тег script, который загружает RequireJS, с data-атрибутом указывающим
+на точку входа в ваше приложение, `main.js`:
 
     <script data-main="js/main.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js"></script>
-    
 
 [index.html][15]
 
-You can easily build much more complex applications this way, and the nice part
-about it is that the modules are loaded asynchronously — only loading the 
-RequireJS lib blocks the loading of the page, but none of your JavaScript code.
+Вот так с лёгкостью можно строить более сложные приложения, и что самое
+приятное, модули подгружаются асинхронно — блокирует загрузку страницы только
+загрузка самой библиотеки RequireJS, ваши же скрипты её не блокируют.
 
-[Look a the example here to see it in action][16].
+[Посмотрите на результат вживую тут][16].
 
-## The Node.js Way: CommonJS Modules
+## Как в Node.js: модули CommonJS
 
-With the advent of server-side JavaScript using [Node.js][17] or [io.js][18],
-another system of JavaScript modules became popular:[CommonJS][19].
+С появлением серверного JavaScript на основе [Node.js][17] или [io.js][18]
+стала популярной другая система модулей JavaScript, [CommonJS][19].
 
-While this is primarily used for npm modules and node applications running on
-web servers, you can use[Browserify][5] to use it for client-side code, as well
-. This is very cool, because it puts a wealth of npm modules at your disposal 
-and allows you to use the same code on the backend and on the frontend.
+Хотя она используется в основном для модулей npm и приложений, выполняющихся
+на веб-серверах, при помощи [Browserify][5] ей можно также пользоваться в коде
+на клиентской стороне.
+Это очень круто, потому что в ваше распоряжение попадает всё изобилие модулей
+npm, а также это позволяет использовать один и тот же код как на бэкенде,
+так и на фронтенде.
 
-Here's our lil' example in a CommonJS version:</section><section class="text
-">
+Вот наш маленький примерчик в виде модуля CommonJS: 
 
     function Pinkyfier(id) {
         this.element = document.getElementById(id);
@@ -196,7 +189,6 @@ Here's our lil' example in a CommonJS version:</section><section class="text
     }
     
     module.exports = Pinkyfier;
-    
 
 [js/Pinkyfier.js][20]
 
@@ -209,18 +201,16 @@ Here's our lil' example in a CommonJS version:</section><section class="text
     }
     
     module.exports = Fattyfier;
-    
 
 [js/Fattyfier.js][21]
 
-As you can see, the only difference to the "naïve" examples at the beginning
-are the last lines on each file, which state which parts of the code should be 
-exposed to clients using the modules — the classes*Pinkyfier* and *Fattyfier*.
-In that respect, CommonJS modules are simpler and less intrusive than RequireJS.
+Как вы можете заметить, единственное отличие от вышеупомятнутой «наивной»
+реализации в последних строчках каждого файла указывающих, какие части кода
+следует отдавать клиенту при подгрузке модулей, а именно, классы `Pinkyfier` и
+`Fattyfier`.
+В этом отношении модули CommonJS проще и менее навязчивы, чем RequireJS.
 
-To use the modules, you add *require* statements to your *main.js*:</section><
-section class="text
-">
+Чтобы использовать эти модули, добавьте вызов `require` в `main.js`:
 
     var Pinkyfier = require("./Pinkyfier"),
         Fattyfier = require("./Fattyfier"),
@@ -233,47 +223,40 @@ section class="text
     document.getElementById("fat").onclick = function () {
         fattyfier.fat();
     }
-    
 
 [js/main.js][22]
 
-How do you use this in the browser? Browserify works differently than RequireJS
-. Instead of loading a library that does the trick, you use a node tool to 
-create a JavaScript bundle file that contains all of your code.
+А как этим пользоваться в браузере? Browserify работает иначе, чем RequireJS.
+Вместо того, чтобы подгружать библиотеку, которая всё делает сама, мы при помощи
+утилиты на node создаём бандл, файл, содержащий весь ваш код на JavaScript.
 
-To do so, install Browserify with npm (I'm assuming you have node and npm
-installed
-):
+Чтобы это сделать, установите Browserify через npm (Я полагаю, что node и npm
+у вас установлены):
 
     npm install -g browserify
 
-You can then go to the directory that contains your JS files and create a
-bundle with this command:
+А теперь перейдите в папку, где хранятся ваши файлы JS и создайте бандл такой
+командой:
 
     browserify main.js > bundle.js
     
-
-You can then simply include this script bundle in your HTML code with a script
-tag:
+Теперь достаточно просто подключить его в код HTML тегом скрипт:
 
     <script src="js/bundle.js"></script>
-    
 
 [index.html][23]
 
-[Look at the example to see it in action here][24].
+[Посмотрите на результат вживую][24].
 
-## The Future: ES6 Modules
+## Будущее: модули ES6
 
-At the time of writing this, the new JavaScript standard ECMAScript 6 is just
-around the corner, due to be released in June 2015.
+Сейчас, когда я пишу эти строки, новый стандарт JavaScript лишь только на
+подходе и должен быть выпущен в июне 2015.
 
-ES6 brings along native support for JavaScript modules, rendering AMD and
-CommonJS obsolete.
+ES6 привносит нативную поддержку модулей JavaScript, делая AMD и CommonJS
+устаревшими.
 
-Let's have a look how to pinkyfy and fatten up our lorem ipsum text with ES6:</
-section
-><section class="text">
+Давайте взглянем, как орозовить и ожирнить наш рыбный текст с ES6:
 
     class Pinkyfier {
     
@@ -288,7 +271,6 @@ section
     }
     
     export default Pinkyfier;
-    
 
 [js/Pinkyfier.js][25]
 
@@ -304,17 +286,16 @@ section
     }
     
     export default Fattyfier;
-    
 
 [js/Fattyfier.js][26]
 
-Whoa, what happened here? Well, in ES6, as you can see, classes are defined in
-a very different way than in the trusty old JavaScript we've grown to love. But 
-that's actually not the point here, the interesting part are the last lines, 
-with the export statements that expose the classes defined in the modules to the
-client modules. Looks similar to the CommonJS example, doesn't it?
+Ух ты, а что это было? Ну, в ES6, как вы видите, классы определяются совсем
+по-другому, нежели в том старом JavaScript, который мы знаем и любим.
+Но речь тут даже не об этом, вся соль в последних строчках с ключевыми словами
+`export`, которые выносят определённые классы из файла в клиентский модуль.
+Выглядит похоже на пример с CommonJS, не правда ли? 
 
-Here's how to use modules in ES6:
+А вот так мы используем модули в ES6:
 
     import Pinkyfier from "./Pinkyfier";
     import Fattyfier from "./Fattyfier";
@@ -327,41 +308,39 @@ Here's how to use modules in ES6:
     document.getElementById("fat").onclick = function () {
         fattyfier.fat();
     }
-    
 
 [js/main.js][27]
 
-In ES6, *export* and *import* are part of the language and understood by the (
-future) browser without the help of a library like RequireJS or a build tool 
-like Browserify, so you can simply include the main.js file in your script tag.
+В ES6 `export` и `import` — части языка и браузеры (из будущего) их понимают, и
+могут подгружать модули без участия библиотек вроде RequireJS или сборщиков
+вроде Browserify. Вы можете просто подключить файл `main.js` через тег script.
 
-You can [look at the example and see it in action here][28]. Or no, you can't,
-unless you're from the future. Currently, my browser still complains: "modules 
-are not implemented yet
-".
+Вы можете [посмотреть на результат работы вживую тут][28]. Хотя нет, не можете,
+ну разве только что вы не из будущего. В настоящем мой браузер жалуется:
+«модули пока не реализованы».
 
-But webpack can fix that, as we'll see later in this article.
+Но webpack может это исправить, и далее в этой статье мы увидим, как.
 
-## Enter webpack
+## Прошу любить и жаловать, webpack
 
-So, finally, let's get started with webpack. We'll start with the AMD/RequireJS
-example and "webpackify" it. webpack supports AMD modules without further 
-fiddling, so we can simply use the AMD modules from the example above:
-[Pinkyfier.js][29], [Fattyfier.js][30] and [main.js][31].
+Итак, давайте уже наконец перейдём к webpack. Начнём с примера с AMD/RequireJS
+и «вебпакифицируем» его.
+webpack поддерживает модули AMD прямо из коробки, так что мы просто используем
+модули AMD из примера выше: [Pinkyfier.js][29], [Fattyfier.js][30]
+и [main.js][31].
 
-Using webpack is similar to using Browserify: you install a node tool with npm
-and use it to compile one or more bundles.
+webpack в использовании схож с Browserify, вы устанавливаете утилиту на node
+через npm и пользуетесь ей, чтобы собрать один или несколько бандлов. 
 
-Install webpack:
+Установка webpack:
 
     npm install -g webpack
 
-To configure webpack, you create a configuration file named webpack.config.js.
-In this simple version, it only contains config code that tells webpack the 
-paths where to find its stuff
-(*modulesDirectories*), what the application's main file is (*entry*) and what
-bundle file to create where
-(*output*).
+Чтобы настроить webpack, создайте файл настроек под именем `webpack.config.js`.
+В этом простом варианте там будет находиться только код настроек, который
+указывает webpack путь, где он должен искать модули (`modulesDirectories`), где
+у приложения точка входа (`entry`) и как назвать и куда положить файл бандла на
+выходе (`output`).  
 
     var webpack = require("webpack");
     
@@ -377,29 +356,27 @@ bundle file to create where
             filename: "bundle.js"
         }
     };
-    
 
 [js/webpack.config.js][32]
 
-With the configuration file in place, we can simply enter "webpack" on the
-command line:
+После того, как мы создали в нужном месте файл, мы можем просто набрать
+«webpack» в командной строке:
 
     webpack
 
-This creates two files, *bundle.js* and *1.bundle.js*.
+Это создаст два файла, `bundle.js` и `1.bundle.js`.
 
-"Why two?" you ask. Well, because we're using AMD modules, which are loaded
-asynchronously.*bundle.js* contains the code from *main.js*, *1.bundle.js*
-contains the code from*Pinkyfier.js* and *Fattyfier.js* and is loaded
-asynchronously. If we were using CommonJS-style modules, which are always loaded
-synchronously, we would get only one bundle file. This gives you a first glimpse
-at how fiendishly clever this tool is.
+«А почему два?» — спросите вы. Что ж, это из-за того, что мы используем модули
+AMD, которые подгружаются асинхронно. `bundle.js` содержит код из `main.js`, а
+в `1.bundle.js` — код из `Pinkyfier.js` и `Fattyfier.js`, который грузится
+асинхронно. Если бы у нас были модули CommonJS, которые всегда подгружаются
+синхронно, на выходе был бы всего один файл. Вы уже начинаете понимать,
+нсколько дьявольски умная эта утилита?
 
-We include *bundle.js* in the script tag in our [HTML code][33] (no need to
-include the other bundle
-).
+Далее мы подключаем `bundle.js` через тег script в наш [код HTML][33]
+(подключать второй бандл не нужно).
 
-[Look at the example here to see it in action][34].
+[И смотрим на то, что получилось][34].
 
 ## The Fun Part
 
