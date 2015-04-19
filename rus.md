@@ -6,6 +6,8 @@ JavaScript и других ресурсов для фронтенда.
 что вы полюбите webpack так же, как и я.
 Эта статья — подробная инструкция для вас.
 
+![Логотип webpack][2]
+
 Чтобы продемонстрировать магию webpack, я в этой статье буду использовать
 в качестве примеров очень простой, даже неестественно примитивный, код.
 [Он хранится на GitHub, вот тут][6].
@@ -316,7 +318,7 @@ ES6 привносит нативную поддержку модулей JavaSc
 вроде Browserify. Вы можете просто подключить файл `main.js` через тег script.
 
 Вы можете [посмотреть на результат работы вживую тут][28]. Хотя нет, не можете,
-ну разве только что вы не из будущего. В настоящем мой браузер жалуется:
+ну разве только что вы не гость из будущего. В настоящем мой браузер жалуется:
 «модули пока не реализованы».
 
 Но webpack может это исправить, и далее в этой статье мы увидим, как.
@@ -378,37 +380,38 @@ AMD, которые подгружаются асинхронно. `bundle.js` �
 
 [И смотрим на то, что получилось][34].
 
-## The Fun Part
+## Интересный момент
 
-That's all very well, but what's the advantage over just using RequireJS?
-RequireJS comes with an optimizer
-(*r.js*) that can bundle files just as well...
+Это всё хорошо, но в чём тут преимущество по сравнению с использованием
+RequreJS? С RequireJS идёт в комплекте оптимизатор (`r.js`), который тоже
+может создавать бандлы...
 
-That's where the fun part begins: remember what I said about Browserify, how it
-allows you to use npm modules both in the backend and frontend, while the 
-advantage of RequireJS is asynchronous loading? Well, with webpack, you can have
-the best of both worlds. webpack can handle both AMD modules*and* CommonJS
-modules*at the same time*.
+Тут начинается самое интересное: помните, что я говорил про Browserify, что он
+позволяет использовать модули npm и на бэкенде, и на фронтенде, а преимущество
+RequireJS в асинхронной загрузке? Так вот, с webpack вы можете взять лучшее от
+обоих миров. webpack поддерживает *и* модули AMD *и* модули CommonJS
+*одновременно*.
 
-Try it out — you can simply swap the AMD Pinkifier.js with the 
-[CommonJS version][35]. Run the webpack command again.
+Попробуйте сами, вы можете заменить Pinkifier.js в формате AMD на
+[версию с CommonJS][35]. Запустите команду webpack ещё раз.
 
-[Look at the example and see it in action][36] — it works just the same way.
+[Посмотрите на пример и результат][36] — всё работает точно так же.
 
-Note that there's no additional configuration neccessary, you don't need to
-tell webpack: "Hey, I'm using both styles of module." webpack is smart enough to
-figure this out by itself.
+Заметьте, не требуется никакой дополнительной настройки, не нужно говорить
+webpack: «Эй, я использую оба формата модулей». webpack достаточно умён, чтобы
+понять это самостоятельно.
 
-## Back to the Future
+## Назад в будущее
 
-Let's go back to our ES6 example, which, sadly, I can't run in my April-2015-
-browser. How can webpack help? Easily. webpack has the concept of loaders, 
-additional modules that you add to the webpack config to load files with that 
-match a certain pattern. There are many, many loaders out there for all kinds of
-things, not only loading JavaScript, but even CSS or images.
+Вернёмся к нашему примеру с ES6, который я, к сожалению, не могу запустить на
+своём браузере образца апреля 2015 года. Может ли нам помочь webpack? Легко!
+В webpack есть понятие загрузчиков, дополнительных модулей, которые добавляются
+в конфигурацию, чтобы загружать файлы, соответсвующие какому-то признаку.
+Есть целая огромная куча загрузчиков для самых различных вещей, не только для
+JavaScript, а даже для CSS или изображений.
 
-We'll configure the Babel loader for all JavaScript files by adding this block
-to our*webpack.config.js*:
+Мы настроим загрузчик Babel для всех файлов javaScript, добавив такой блок в
+`webpack.config.js`:
 
     module: {
             loaders: [
@@ -418,43 +421,40 @@ to our*webpack.config.js*:
                 }
             ]
         }
-    
 
 [js/webpack.config.js][37]
 
-This will run all the JS files through a loader that uses [Babel][38] to
-transpile the ES6 code to plain old JavaScript code that current browsers 
-understand.
+Теперь webpack будет загружать все файлы js через загрузчик, который использует
+[Babel][38] чтобы транскомпилировать код на ES6 в код старой версии JavaScript,
+который смогут понять нынешние браузеры.
 
-Since the Babel loader is not a part of webpack by default but rather an addon
-, you have to install it to your project with npm.
+Загрузчик Babel не является частью webpack по умолчанию, это лишь дополнение,
+поэтому придётся установить его в проект через npm.
 
-I added a [package.json][39] to my code example so I can just run "npm install
-" on the command line (in the js directory) to do that.
+Я добавил [package.json][39] в свой код, так что я могу просто запустить
+«`npm install`» в командной строке (из папки проекта), чтобы этого добиться.
 
-After running the webpack command, we get a single bundle (nothing asynchronous
-going on here) that we include in our script tag.
+После запуска webpack мы получим единственный бандл (ничего асинхронного тут
+не происходит), который можно подключить через тег script.
 
-[Look at the example to see it in action][40].
+[Посмотреите на этот пример вживую][40].
 
-## Good, Clean, Asynchronous Fun
+## Хорошенькая, чистенькая асинхронность
 
-Back to the AMD+webpack example — I wrote earlier that webpack automatically
-creates multiple bundles when it encounters AMD modules. That's nice, but is it 
-really useful? We are loading the fattyfier and pinkyfier asynchronously, but 
-the asynchronous loading happens immediately after the page was loaded. There's 
-not a very big sitespeed advantage over just having one big bundle file with 
-everything in it, if we include the script tag before the closing body tag, 
-which is commonly accepted best practice.
+Вернёмся к примеру с AMD + webpack, я писал ранее, что webpack автоматически
+создаёт несколько бандлов когда ему попадаются модули AMD. Это приятно, но зачем
+это может пригодиться? Мы загружаем орозовитель и ожирнитель асинхронно, но
+вся эта асинхронная загрузка происходит сразу после загрузки страницы. Не
+очень-то большой выигрыш в скорости загрузки страницы по сравнению с одним
+большим бандлом со всем кодом, подключённым через тег script перед закрывающим
+тегом body, приёмом, который многими признан полезным. 
 
-But do we really need the fattyfier module? Actually, we only need it when the
-user clicks the "make it fat" button. Wouldn't it be cool if we could use 
-asynchronous loading to our advantage and only load the farryfier code when we 
-actually need it, i.e. when the button is clicked?
+Но действительно ли нам нужен модуль `Fattifier`? Вообще-то, он нам нужен только
+когда пользователь щёлкнет по кнопке «ожирнить». Разве не было бы круто
+использовать асинхронную загрузку как преимущество и загружать код ожирнителя
+только когда он нам нужен, т.е., когда кнопка была нажата?
 
-With webpack, this is very easy to do. We change our *main.js* code like so:</
-section
-><section class="text">
+С webpack этого очень легко добиться. Мы изменим код `main.js`, как-то так:
 
     var Pinkyfier = require("./Pinkyfier"),
         pinkyfier = new Pinkyfier("text");
@@ -468,62 +468,54 @@ section
         });
     }
     
-
 [js/main.js][41]
 
-What's going on here? I'm actually mixing up CommonJS module style and AMD
-module style in the same file: The CommonJS style require statement in line 1 is
-for loading the pinkyfier module synchronously. The AMD style require statement 
-in line 7 is for loading the fattyfier module asynchronously.
+Что тут происходит? Я смешал модули в стилях CommonJS и AMD в одном файле:
+`require` в стиле CommonJS на строке 1 отвечает за загрузку модуля `Pinkyfier`
+синхронно. `require` в стиле AMD на строке 7 загружает модуль `Fattyfier`
+асинхронно.
 
-When I run the webpack command, I get a *bundle.js* file that contains the code
-from*main.js* and *Pinkyfier.js* and a *1.bundle.js* file that contains the
-code from*Fattyfier.js*.
+Запустив команду webpack, я получаю на выходе файлы: `bundle.js` с кодом
+из `main.js` и `Pinkyfier.js` и `1.bundle.js`, с кодом из `Fattyfier.js`.
 
-When I load my page in the browser, only *bundle.js* is loaded. Only after I
-click the button, the other bundle is loaded.
+Когда я открою страницу в браузере, загрузится только `bundle.js`. И только
+после того, как я нажму на кнопку, подгрузится другой бандл.
 
-[Look at the example to see it in action][42].
+[Посмотрите на этот пример][42].
 
-This is great for reducing page loading time and increasing site speed. We use
-this for[mobile.de's search page][43] — when I click on the "Detailed Search
-" button on the upper left, a big old search form box pops up. All the 
-JavaScript code that drives this form, even the template code, which is a client
--side rendered[Soy template][44], is loaded asynchronously, only after the
-button has been clicked.
+Это хороший приём для уменьшения времени загрузки страницы и увеличения скорости
+работы сайта. Мы используем его на [странице поиска mobile.de][43], когда я
+щёлкаю по кнопке «расширенный поиск» сверху слева, появляется большая старая
+форма для поиска. Весь код JavaScript для этой формы, даже код шаблона, который
+рендерится на клиентской стороне [шаблонизатором Soy][44], загружается
+асинхронно, только после нажатия кнопки.
 
-## Conclusion
+## Заключение
 
-So that's about it, you should now have a good idea about what webpack is all
-about and how it works.
+Итак, теперь у вас должно было появиться хорошее понимание того, что такое
+webpack, и как он работает. 
 
-Obviousy, this is just the beginning.
+Очевидно, это только начало.
 
-As I wrote above, there's a vast selection of loader modules and plugins at
-your disposable to do things like[minification][45] or compilation of 
-[SASS][46] or [Less][47] to CSS. You can have webpack generate sitemaps to
-easily debug your JavaScript in your browser. You can have webpack run a
-[dev server][48] that listens for changes to your code and instantly updates
-the generated files. You can integrate webpack in your[Grunt][49] or [Gulp][50]
-[chunk hashes][51] (a.k.a. fingerprints) to optimize browser caching. You can
-have different bundles for different pages of your application and let webpack 
-organize the libs shared by these pages in shared bundles automatically. You can
-[write your own loader modules][52], which is actually quite easy.
+Как я уже упоминал, к вашим услугам имеется огромное количество
+модулей-загрузчиков и плагинов для различных задач вроде [минификации][45] или
+компиляции [SASS][46] или [Less][47] в CSS.
+Вы можете сказать webpack генерировать карты сайта для более удобной отладки
+JavaScript в браузере _(прим. перев.: возможно, имелись в виду карты кода)_.
+Вы можете запустить webpack как [сервер для разработки][48], и он будет
+отслеживать изменения в коде и сразу же обновлять сгенерированные файлы.
+Вы можете интегрировать webpack в [Grunt][49] или [Gulp][50] и генерировать
+[хэши содержимого][51] (также известные как отпечатки пальцев) для оптимизации
+кэширования в браузере.
+Вы можете использовать различные бандлы  для различных страниц вашего приложения
+и позволить webpack автоматически организовать общие модули для этих страниц
+в общие бандлы.
+Вы можете даже написать [собственный модуль-загрузчик][52], что, кстати говоря,
+очень легко.
 
-Have fun exploring the possibilities!</section>
+Развлекайтесь, исследуя возможности!
 
-** [javascript][53], [es6][54], [webpack][55], [frontend][56], [webdev][57] 
-
-Share this post on: [Twitter][58] , [Facebook][59] , [G+][60] or [LinkedIn][61]
-
-[ ![monster][63]
-
-![pacman][64]
-
-![we are hiring][65]][65] </article>
-
- [1]: http://www.technology-ebay.de/
- [2]: img/webpack.png
+ [2]: img/webpack.png "Логотип webpack"
  [3]: http://webpack.github.io/
  [4]: http://requirejs.org/
  [5]: http://browserify.org/
@@ -596,19 +588,3 @@ Share this post on: [Twitter][58] , [Facebook][59] , [G+][60] or [LinkedIn][61]
  [50]: http://webpack.github.io/docs/usage-with-gulp.html
  [51]: http://webpack.github.io/docs/long-term-caching.html
  [52]: http://webpack.github.io/docs/how-to-write-a-loader.html
- [53]: http://www.technology-ebay.de/filter/add?facility=TAG&value=javascript
- [54]: http://www.technology-ebay.de/filter/add?facility=TAG&value=es6
- [55]: http://www.technology-ebay.de/filter/add?facility=TAG&value=webpack
- [56]: http://www.technology-ebay.de/filter/add?facility=TAG&value=frontend
- [57]: http://www.technology-ebay.de/filter/add?facility=TAG&value=webdev
-
- [58]: http://twitter.com/home?status=http%3A%2F%2Fwww.technology-ebay.de%2Fthe-teams%2Fmobile-de%2Fblog%2Fpacking-the-web-like-a-boss.html
-
- [59]: http://www.facebook.com/sharer/sharer.php?s=100&p%5Burl%5D=http%3A%2F%2Fwww.technology-ebay.de%2Fthe-teams%2Fmobile-de%2Fblog%2Fpacking-the-web-like-a-boss.html&p%5Btitle%5D=Packing+the+Web+Like+a+Boss
-
- [60]: https://plus.google.com/share?url=http%3A%2F%2Fwww.technology-ebay.de%2Fthe-teams%2Fmobile-de%2Fblog%2Fpacking-the-web-like-a-boss.html
-
- [61]: http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fwww.technology-ebay.de%2Fthe-teams%2Fmobile-de%2Fblog%2Fpacking-the-web-like-a-boss.html&title=Packing+the+Web+Like+a+Boss
- []: http://jobs.ebaycareers.com/articles/english
- [63]: img/PacManMonster.gif
- [64]: img/pacman.gif
