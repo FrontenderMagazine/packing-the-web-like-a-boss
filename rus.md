@@ -25,7 +25,7 @@ JavaScript, который делает блок текста розовым, и
     function Pinkyfier(id) { // Орозовитель
         this.element = document.getElementById(id);
     }
-    
+
     Pinkyfier.prototype.pink = function () {
         this.element.style.backgroundColor = "mistyrose";
         this.element.style.color = "hotpink";
@@ -45,9 +45,9 @@ JavaScript, который делает блок текста розовым, и
 
     var pinkyfier = new Pinkyfier("text"),
         fattyfier = new Fattyfier("text");
-    
+
     pinkyfier.pink();
-    
+
     document.getElementById("fat").onclick = function () {
         fattyfier.fat();
     }
@@ -69,7 +69,7 @@ JavaScript, который делает блок текста розовым, и
                 В магазине — продавец. В экономике, так сказать, необходим.
             </p>
             <button id="fat" type="button">Ожирнить</button>
-    
+
             <script src="js/Fattyfier.js"></script>
             <script src="js/Pinkyfier.js"></script>
             <script src="js/main.js"></script>
@@ -111,12 +111,12 @@ JavaScript, который делает блок текста розовым, и
         function Pinkyfier(id) {
             this.element = document.getElementById(id);
         }
-    
+
         Pinkyfier.prototype.pink = function () {
             this.element.style.backgroundColor = "mistyrose";
             this.element.style.color = "hotpink";
         }
-    
+
         return Pinkyfier;
     });
 
@@ -126,11 +126,11 @@ JavaScript, который делает блок текста розовым, и
         function Fattyfier(id) {
             this.element = document.getElementById(id);
         }
-    
+
         Fattyfier.prototype.fat = function () {
             this.element.style.fontWeight = "bold";
         }
-    
+
         return Fattyfier;
     });
 
@@ -140,12 +140,12 @@ JavaScript, который делает блок текста розовым, и
 что определили:
 
     require([ "Fattyfier", "Pinkyfier" ], function (Fattyfier, Pinkyfier) {
-    
+
         var pinkyfier = new Pinkyfier("text"),
             fattyfier = new Fattyfier("text");
-    
+
         pinkyfier.pink();
-    
+
         document.getElementById("fat").onclick = function () {
             fattyfier.fat();
         }
@@ -179,17 +179,17 @@ JavaScript, который делает блок текста розовым, и
 npm, а также это позволяет использовать один и тот же код как на бэкенде,
 так и на фронтенде.
 
-Вот наш маленький примерчик в виде модуля CommonJS: 
+Вот наш маленький примерчик в виде модуля CommonJS:
 
     function Pinkyfier(id) {
         this.element = document.getElementById(id);
     }
-    
+
     Pinkyfier.prototype.pink = function () {
         this.element.style.backgroundColor = "mistyrose";
         this.element.style.color = "hotpink";
     }
-    
+
     module.exports = Pinkyfier;
 
 [js/Pinkyfier.js][20]
@@ -197,11 +197,11 @@ npm, а также это позволяет использовать один �
     function Fattyfier(id) {
         this.element = document.getElementById(id);
     }
-    
+
     Fattyfier.prototype.fat = function () {
         this.element.style.fontWeight = "bold";
     }
-    
+
     module.exports = Fattyfier;
 
 [js/Fattyfier.js][21]
@@ -216,12 +216,12 @@ npm, а также это позволяет использовать один �
 
     var Pinkyfier = require("./Pinkyfier"),
         Fattyfier = require("./Fattyfier"),
-    
+
         pinkyfier = new Pinkyfier("text"),
         fattyfier = new Fattyfier("text");
-    
+
     pinkyfier.pink();
-    
+
     document.getElementById("fat").onclick = function () {
         fattyfier.fat();
     }
@@ -241,7 +241,7 @@ npm, а также это позволяет использовать один �
 командой:
 
     browserify main.js > bundle.js
-    
+
 Теперь достаточно просто подключить его в код HTML тегом скрипт:
 
     <script src="js/bundle.js"></script>
@@ -261,32 +261,32 @@ ES6 привносит нативную поддержку модулей JavaSc
 Давайте взглянем, как орозовить и ожирнить наш рыбный текст с ES6:
 
     class Pinkyfier {
-    
+
         constructor(id) {
             this.element = document.getElementById(id);
         }
-    
+
         pink() {
             this.element.style.backgroundColor = "mistyrose";
             this.element.style.color = "hotpink";
         }
     }
-    
+
     export default Pinkyfier;
 
 [js/Pinkyfier.js][25]
 
     class Fattyfier {
-    
+
         constructor(id) {
             this.element = document.getElementById(id);
         }
-    
+
         fat() {
             this.element.style.fontWeight = "bold";
         }
     }
-    
+
     export default Fattyfier;
 
 [js/Fattyfier.js][26]
@@ -295,18 +295,18 @@ ES6 привносит нативную поддержку модулей JavaSc
 по-другому, нежели в том старом JavaScript, который мы знаем и любим.
 Но речь тут даже не об этом, вся соль в последних строчках с ключевыми словами
 `export`, которые выносят определённые классы из файла в клиентский модуль.
-Выглядит похоже на пример с CommonJS, не правда ли? 
+Выглядит похоже на пример с CommonJS, не правда ли?
 
 А вот так мы используем модули в ES6:
 
     import Pinkyfier from "./Pinkyfier";
     import Fattyfier from "./Fattyfier";
-    
+
     let pinkyfier = new Pinkyfier("text"),
         fattyfier = new Fattyfier("text");
-    
+
     pinkyfier.pink();
-    
+
     document.getElementById("fat").onclick = function () {
         fattyfier.fat();
     }
@@ -332,7 +332,7 @@ webpack поддерживает модули AMD прямо из коробки
 и [main.js][31].
 
 webpack в использовании схож с Browserify, вы устанавливаете утилиту на node
-через npm и пользуетесь ей, чтобы собрать один или несколько бандлов. 
+через npm и пользуетесь ей, чтобы собрать один или несколько бандлов.
 
 Установка webpack:
 
@@ -342,10 +342,10 @@ webpack в использовании схож с Browserify, вы устана�
 В этом простом варианте там будет находиться только код настроек, который
 указывает webpack путь, где он должен искать модули (`modulesDirectories`), где
 у приложения точка входа (`entry`) и как назвать и куда положить файл бандла на
-выходе (`output`).  
+выходе (`output`).
 
     var webpack = require("webpack");
-    
+
     module.exports = {
         entry: "./main",
         resolve: {
@@ -447,7 +447,7 @@ JavaScript, а даже для CSS или изображений.
 вся эта асинхронная загрузка происходит сразу после загрузки страницы. Не
 очень-то большой выигрыш в скорости загрузки страницы по сравнению с одним
 большим бандлом со всем кодом, подключённым через тег script перед закрывающим
-тегом body, приёмом, который многими признан полезным. 
+тегом body, приёмом, который многими признан полезным.
 
 Но действительно ли нам нужен модуль `Fattifier`? Вообще-то, он нам нужен только
 когда пользователь щёлкнет по кнопке «ожирнить». Разве не было бы круто
@@ -458,16 +458,16 @@ JavaScript, а даже для CSS или изображений.
 
     var Pinkyfier = require("./Pinkyfier"),
         pinkyfier = new Pinkyfier("text");
-    
+
     pinkyfier.pink();
-    
+
     document.getElementById("fat").onclick = function () {
         require(["./Fattyfier"], function (Fattyfier) {
             var fattyfier = new Fattyfier("text");
             fattyfier.fat();
         });
     }
-    
+
 [js/main.js][41]
 
 Что тут происходит? Я смешал модули в стилях CommonJS и AMD в одном файле:
@@ -493,7 +493,7 @@ JavaScript, а даже для CSS или изображений.
 ## Заключение
 
 Итак, теперь у вас должно было появиться хорошее понимание того, что такое
-webpack, и как он работает. 
+webpack, и как он работает.
 
 Очевидно, это только начало.
 
@@ -520,18 +520,12 @@ JavaScript в браузере _(прим. перев.: возможно, име
  [4]: http://requirejs.org/
  [5]: http://browserify.org/
  [6]: https://github.com/pahund/webpack-talk
-
  [7]: https://github.com/pahund/webpack-talk/blob/master/01_global-vars/js/Pinkyfier.js
-
  [8]: https://github.com/pahund/webpack-talk/blob/master/01_global-vars/js/Fattyfier.js
-
  [9]: https://github.com/pahund/webpack-talk/blob/master/01_global-vars/js/main.js
-
  [10]: https://github.com/pahund/webpack-talk/blob/master/01_global-vars/index.html
  [11]: http://pahund.github.io/webpack-talk/01_global-vars/index.html
-
  [12]: https://github.com/pahund/webpack-talk/blob/master/02_amd/js/Pinkyfier.js
-
  [13]: https://github.com/pahund/webpack-talk/blob/master/02_amd/js/Fattyfier.js
  [14]: https://github.com/pahund/webpack-talk/blob/master/02_amd/js/main.js
  [15]: https://github.com/pahund/webpack-talk/blob/master/02_amd/index.html#L20
@@ -539,45 +533,29 @@ JavaScript в браузере _(прим. перев.: возможно, име
  [17]: https://nodejs.org/
  [18]: https://iojs.org/
  [19]: http://www.commonjs.org/
-
  [20]: https://github.com/pahund/webpack-talk/blob/master/03_commonjs/js/Pinkyfier.js
-
  [21]: https://github.com/pahund/webpack-talk/blob/master/03_commonjs/js/Fattyfier.js
-
  [22]: https://github.com/pahund/webpack-talk/blob/master/03_commonjs/js/main.js
-
  [23]: https://github.com/pahund/webpack-talk/blob/master/03_commonjs/index.html#L18
  [24]: http://pahund.github.io/webpack-talk/03_commonjs/index.html
-
  [25]: https://github.com/pahund/webpack-talk/blob/master/04_es6/js/Pinkyfier.js
-
  [26]: https://github.com/pahund/webpack-talk/blob/master/04_es6/js/Fattyfier.js
  [27]: https://github.com/pahund/webpack-talk/blob/master/04_es6/js/main.js
  [28]: http://pahund.github.io/webpack-talk/04_es6/index.html
-
  [29]: https://github.com/pahund/webpack-talk/blob/master/05_webpack_amd/js/Pinkyfier.js
-
  [30]: https://github.com/pahund/webpack-talk/blob/master/05_webpack_amd/js/Fattyfier.js
-
  [31]: https://github.com/pahund/webpack-talk/blob/master/05_webpack_amd/js/main.js
-
  [32]: https://github.com/pahund/webpack-talk/blob/master/05_webpack_amd/js/webpack.config.js
-
  [33]: https://github.com/pahund/webpack-talk/blob/master/05_webpack_amd/index.html
  [34]: http://pahund.github.io/webpack-talk/05_webpack_amd/
-
  [35]: https://github.com/pahund/webpack-talk/blob/master/06_webpack_amd-commonjs/js/Pinkyfier.js
  [36]: http://pahund.github.io/webpack-talk/06_webpack_amd-commonjs/
-
  [37]: https://github.com/pahund/webpack-talk/blob/master/07_webpack-es6/js/webpack.config.js#L14
  [38]: https://babeljs.io/
-
  [39]: https://github.com/pahund/webpack-talk/blob/master/07_webpack-es6/js/package.json
  [40]: http://pahund.github.io/webpack-talk/07_webpack-es6/
-
  [41]: https://github.com/pahund/webpack-talk/blob/master/08_webpack_multiple-bundles/js/main.js
  [42]: http://pahund.github.io/webpack-talk/08_webpack_multiple-bundles/
-
  [43]: http://suchen.mobile.de/fahrzeuge/search.html?isSearchRequest=true&scopeId=C&makeModelVariant1.makeId=&makeModelVariant1.modelDescription=&makeModelVariantExclusions%5B0%5D.makeId=&minFirstRegistrationDate=&maxFirstRegistrationDate=&minMileage=&maxMileage=&minPrice=&maxPrice=&minPowerAsArray=&maxPowerAsArray=&maxPowerAsArray=PS&minPowerAsArray=PS&minCubicCapacity=&maxCubicCapacity=&ambitCountry=&zipcode=&minSeats=&maxSeats=&doorCount=&climatisation=&airbag=&daysAfterCreation=&adLimitation=&export=&vatable=&maxConsumptionCombined=&emissionClass=&emissionsSticker=&damageUnrepaired=NO_DAMAGE_UNREPAIRED&numberOfPreviousOwners=&minHu=&usedCarSeals=&lang=en
  [44]: https://developers.google.com/closure/templates/
  [45]: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
